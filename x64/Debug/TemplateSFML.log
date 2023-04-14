@@ -1,0 +1,15 @@
+﻿  main.cpp
+c:\users\thibaut\desktop\sfml\templatesfml_vscommunity2017-main\main.cpp(2): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+c:\users\thibaut\desktop\sfml\templatesfml_vscommunity2017-main\main.cpp(30): warning C4244: 'argument' : conversion de 'T' en 'T', perte possible de données
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+c:\users\thibaut\desktop\sfml\templatesfml_vscommunity2017-main\main.cpp(54): warning C4018: '<' : incompatibilité signed/unsigned
+c:\users\thibaut\desktop\sfml\templatesfml_vscommunity2017-main\main.cpp(56): warning C4244: 'argument' : conversion de 'double' en 'sf::Uint8', perte possible de données
+c:\users\thibaut\desktop\sfml\templatesfml_vscommunity2017-main\main.cpp(57): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+  TemplateSFML.vcxproj -> C:\Users\Thibaut\Desktop\SFML\TemplateSFML_VSCommunity2017-main\x64\Debug\TemplateSFML.exe
