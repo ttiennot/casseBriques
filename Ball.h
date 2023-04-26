@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include "Player.h";
 
 class Ball
 {
@@ -24,7 +25,7 @@ public:
 	void setPosition(sf::Vector2f newPosition);
 	sf::Vector2f getPosition();
 	void setDirection(sf::Vector2f newDirection);
-
-	void manageCollisionWith(sf::RenderWindow& window);
+	void update(float deltaTime, Player& player, sf::RenderWindow& window);
+	void manageCollisionWith(Player& player, sf::RenderWindow& window);
 };
 
