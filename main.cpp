@@ -18,7 +18,7 @@ int main(int argc, char **argv)
 	Ball ball(200, 250, 10, 600);
 
 	int brickInitial = 100; // Nombre de briques dans le tableau
-	std::deque<Brick*> bricks;
+	std::vector<Brick> bricks;
 
 	int brickWidth = 80;
 	int brickHeight = 25;
@@ -27,9 +27,10 @@ int main(int argc, char **argv)
 		for (int j = 1; j < 8; j++) {
 			int x = i * brickWidth;
 			int y = j * brickHeight;
-			bricks.push_back(new Brick(x, y, brickWidth, brickHeight, 3));
+			bricks.push_back(Brick(x, y, brickWidth, brickHeight, 3));
 		}
 	}
+
 
 	sf::RenderWindow window(sf::VideoMode(800, 600), "My window");
 	
@@ -74,6 +75,9 @@ int main(int argc, char **argv)
 		ball.move(ellapsedTime);
 
 		ball.manageCollisionWith(player, window);
+		
+		
+
 
 		window.clear();
 
@@ -100,8 +104,13 @@ int main(int argc, char **argv)
 		player.draw(window);
 		for (int i = 0; i < bricks.size(); i++)
 		{
-			bricks[i]->draw(window);
+			bricks[i].draw(window);
+			ball.manageCollisionWiths(&bricks[i]);
+			if (!bricks[i].isAlive()) {
+				bricks[i].destroy(bricks);
+			}
 		}
+
 
 		window.display();
 

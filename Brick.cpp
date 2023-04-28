@@ -45,6 +45,13 @@ bool Brick::isAlive()
     return health > 0;
 }
 
+void Brick::destroy(std::vector<Brick>& bricks)
+{
+    // Remove the brick from the vector of bricks
+    bricks.erase(std::remove(bricks.begin(), bricks.end(), *this), bricks.end());
+}
+
+
 void Brick::hit()
 {
     // Methode a appeler lorsque la brique est touchée
@@ -63,4 +70,9 @@ sf::Vector2f Brick::getSize()
 {
     // Accesseur de l'attribut size
     return size;
+}
+
+bool Brick::operator==(const Brick& other) const
+{
+    return this == &other;
 }

@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "Player.h";
+#include "Brick.h";
 
 class Ball
 {
@@ -27,5 +28,7 @@ public:
 	void setDirection(sf::Vector2f newDirection);
 	void update(float deltaTime, Player& player, sf::RenderWindow& window);
 	void manageCollisionWith(Player& player, sf::RenderWindow& window);
+	void manageCollisionWiths(Brick* brick);
+
 };
 

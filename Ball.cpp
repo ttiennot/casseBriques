@@ -141,3 +141,32 @@ void Ball::manageCollisionWith(Player& player, sf::RenderWindow& window)
         direction.x = -std::abs(direction.x);
     }
 }
+
+void Ball::manageCollisionWiths(Brick* brick)
+{
+    float MAX_ANGLE = 45;
+
+    // Vérifie si la balle touche la brique
+    if (position.y + 2 * radius >= brick->getPosition().y &&
+        position.y <= brick->getPosition().y + brick->getSize().y &&
+        position.x + 2 * radius >= brick->getPosition().x &&
+        position.x <= brick->getPosition().x + brick->getSize().x)
+    {
+        // Gérez la collision ici
+        // Calcule la position relative de la balle par rapport à la brique
+        double relativeIntersectX = position.x + radius - brick->getPosition().x - brick->getSize().x / 2.0;
+
+        // Normalise la position relative de la balle
+        double normalizedRelativeIntersectionX = relativeIntersectX / (brick->getSize().x / 2.0);
+
+        // Calcule l'angle de rebond de la balle
+        double angle = normalizedRelativeIntersectionX * MAX_ANGLE;
+
+        // Change la direction de la balle en fonction de l'angle de rebond
+        setAngle(angle);
+
+        //appel de la méthode hit pour décrémenter de 1 la vie de la brique
+        brick->hit();
+    }
+}
+
