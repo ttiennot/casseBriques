@@ -1,6 +1,9 @@
 #include <SFML/Graphics.hpp>
 #include "Ball.h"
 #include "Player.h"
+#include "Brick.h"
+#include <deque>
+#include <cmath>
 
 double mapValue(double value, double min, double max, double nMin, double nMax)
 {
@@ -11,8 +14,23 @@ double mapValue(double value, double min, double max, double nMin, double nMax)
 
 int main(int argc, char **argv)
 {
-	Player player(550, 100, 20);
+	Player player(500, 100, 20);
 	Ball ball(200, 250, 10, 600);
+
+	int brickInitial = 100; // Nombre de briques dans le tableau
+	std::deque<Brick*> bricks;
+
+	int brickWidth = 80;
+	int brickHeight = 25;
+
+	for (int i = 1; i < 9; i++) {
+		for (int j = 1; j < 8; j++) {
+			int x = i * brickWidth;
+			int y = j * brickHeight;
+			bricks.push_back(new Brick(x, y, brickWidth, brickHeight, 3));
+		}
+	}
+
 	sf::RenderWindow window(sf::VideoMode(800, 600), "My window");
 	
 	/*
@@ -54,9 +72,15 @@ int main(int argc, char **argv)
 		}
 
 		ball.move(ellapsedTime);
-		ball.manageCollisionWith(window);
+
+		ball.manageCollisionWith(player, window);
 
 		window.clear();
+
+
+		// Vérifier les collisions avec la plateforme du joueur
+		//ball.manageCollisionWith(player);
+
 
 		//for (int i = 0; i < window.getSize().y; i++)
 		//{
@@ -74,6 +98,11 @@ int main(int argc, char **argv)
 		//window.draw(circle);
 		ball.draw(window);
 		player.draw(window);
+		for (int i = 0; i < bricks.size(); i++)
+		{
+			bricks[i]->draw(window);
+		}
+
 		window.display();
 
 	}

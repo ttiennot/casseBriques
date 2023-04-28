@@ -5,7 +5,7 @@ Player::Player(int y, int width, int height) : y(y) {
     size = sf::Vector2f(width, height);
     shape.setPosition(position);
     shape.setSize(size);
-    shape.setFillColor(sf::Color::Green);
+    shape.setFillColor(sf::Color::Red);
 }
 
 Player::~Player() {}
