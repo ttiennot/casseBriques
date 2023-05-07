@@ -51,6 +51,10 @@ void Brick::destroy(std::vector<Brick>& bricks)
     bricks.erase(std::remove(bricks.begin(), bricks.end(), *this), bricks.end());
 }
 
+sf::RectangleShape Brick::getShape()
+{
+    return shape;
+}
 
 void Brick::hit()
 {

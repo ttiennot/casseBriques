@@ -88,7 +88,6 @@ void Ball::update(float deltaTime, Player& player, sf::RenderWindow& window)
 void Ball::manageCollisionWith(Player& player, sf::RenderWindow& window)
 {
     float MAX_ANGLE = 45;
-    const int MARGE = 2;
 
     // Vérifie si la balle touche le joueur
     if (position.y + 2 * radius >= player.getPosition().y &&
@@ -144,29 +143,58 @@ void Ball::manageCollisionWith(Player& player, sf::RenderWindow& window)
 
 void Ball::manageCollisionWiths(Brick* brick)
 {
-    float MAX_ANGLE = 45;
+		sf::FloatRect ballBounds = shape.getGlobalBounds();
+		sf::FloatRect brickBounds = brick->getShape().getGlobalBounds();
 
-    // Vérifie si la balle touche la brique
-    if (position.y + 2 * radius >= brick->getPosition().y &&
-        position.y <= brick->getPosition().y + brick->getSize().y &&
-        position.x + 2 * radius >= brick->getPosition().x &&
-        position.x <= brick->getPosition().x + brick->getSize().x)
-    {
-        // Gérez la collision ici
-        // Calcule la position relative de la balle par rapport à la brique
-        double relativeIntersectX = position.x + radius - brick->getPosition().x - brick->getSize().x / 2.0;
+		// Vérifie si la balle touche la brique
+		if (ballBounds.intersects(brickBounds))
+		{
+			// Calcule la position relative de la balle par rapport à la brique
+			double intersectX = position.x + radius - brick->getPosition().x;
+			double intersectY = position.y + radius - brick->getPosition().y;
+			double deltaX = brick->getSize().x / 2.0 - std::abs(intersectX);
+			double deltaY = brick->getSize().y / 2.0 - std::abs(intersectY);
 
-        // Normalise la position relative de la balle
-        double normalizedRelativeIntersectionX = relativeIntersectX / (brick->getSize().x / 2.0);
+			// Inverse la direction de la balle en fonction de l'axe de la collision
+			if (deltaX > deltaY)
+			{
+				// Collision horizontale
+				direction.x = -1;
+				position.x += (intersectX > 0 ? deltaX : -deltaX);
+			}
+			else
+			{
+				// Collision verticale
+				direction.y = -1;
+				position.y += (intersectY > 0 ? deltaY : -deltaY);
+			}
 
-        // Calcule l'angle de rebond de la balle
-        double angle = normalizedRelativeIntersectionX * MAX_ANGLE;
+			// Réduit la santé de la brique et change sa couleur
+			brick->hit();
 
-        // Change la direction de la balle en fonction de l'angle de rebond
-        setAngle(angle);
+			// Changer la direction de la balle immédiatement après la collision
+			// en fonction de la position de la brique relative à la balle
+			if (intersectX > 0)
+			{
+				// La balle touche la brique sur le côté droit
+				direction.x = std::abs(direction.x);
+			}
+			else
+			{
+				// La balle touche la brique sur le côté gauche
+				direction.x = -std::abs(direction.x);
+			}
 
-        //appel de la méthode hit pour décrémenter de 1 la vie de la brique
-        brick->hit();
-    }
+			if (intersectY > 0)
+			{
+				// La balle touche la brique en bas
+				direction.y = std::abs(direction.y);
+			}
+			else
+			{
+				// La balle touche la brique en haut
+				direction.y = -std::abs(direction.y);
+			}
+		}
 }
 

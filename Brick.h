@@ -16,6 +16,7 @@ public:
 	void hit();
 	sf::Vector2f getPosition();
 	sf::Vector2f getSize();
+	sf::RectangleShape getShape();
 	void destroy(std::vector<Brick>& bricks);
 	bool operator==(const Brick& other) const;
 };
